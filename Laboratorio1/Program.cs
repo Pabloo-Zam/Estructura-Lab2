@@ -64,38 +64,77 @@ namespace Laboratorio1
         /////
         static void Main(string[] args)
         {
+            
             //LEER JSON
             string Zone;
-            bool pets;
+            bool pets=true;
             string comercialActivity;
-            foreach (string line in System.IO.File.ReadLines(@"D:\Desktop\1er ciclo 2023\Estructura Lab\Estructura-Lab2\input_lab_2_example.jsonl"))
+            string pA = "jjj";
+            // = true;
+
+            /*foreach (string line in System.IO.File.ReadLines(@"D:\Desktop\1er ciclo 2023\Estructura Lab\Estructura-Lab2\input_lab_2_example.jsonl"))
             {
                 string[] jsonObjects = line.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 System.Console.WriteLine(line);
                 var options = new JsonSerializerOptions
 
+
                 {
                     PropertyNameCaseInsensitive = true,
                     IncludeFields = true,
                 };
-                //InputLab input = JsonSerializer.Deserialize<InputLab>(line, options);
-                InputLab input = JsonSerializer.Deserialize<InputLab>(jsonObjects[0]);
-                bool[] TypeBuilders = new bool[3];
-                System.Console.ReadLine();
-                if (input.input1[0].builds.Apartments != null) { TypeBuilders[0] = true; }
-                if (input.input1[0].builds.Houses != null) { TypeBuilders[1] = true; }
-                if (input.input1[0].builds.Premises != null) { TypeBuilders[0] = true; }
+            }*/
+            string jsonText = File.ReadAllText(@"D:\Desktop\1er ciclo 2023\Estructura Lab\LAB2\input_lab_2_example.jsonl");
+            string[] jsonObjects = jsonText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            InputLab input = JsonSerializer.Deserialize<InputLab>(jsonObjects[0]);
+            //Console.WriteLine("Si lo leyo");
+            //InputLab input = JsonSerializer.Deserialize<InputLab>(line, options);
 
-                if (input.input2.typeBuilder == "Houses") {
+            bool[] TypeBuilders = new bool[3];
+                //InputLab input = JsonSerializer.Deserialize<InputLab>(jsonObjects[0]);
+                //System.Console.ReadLine();
+                if (input.input1[0].builds.Apartments != null)
+                {
+                    TypeBuilders[0] = true;
+                }
+                if (input.input1[0].builds.Houses != null)
+                {
+                    TypeBuilders[1] = true;
+                }
+                if (input.input1[0].builds.Premises != null)
+                {
+                    TypeBuilders[0] = true;
+                }
+
+                if (input.input2.typeBuilder == "Houses")
+                {
                     Zone = input.input2.minDanger;
+
                 }
-                if (input.input2.typeBuilder == "Apartmets") {
+                if (input.input2.typeBuilder == "Apartmets")
+                {
                     pets = input.input2.wannaPetFriendly.Value;
+
+
                 }
-                if (input.input2.typeBuilder == "Premises") {
+                if (input.input2.typeBuilder == "Premises")
+                {
                     comercialActivity = input.input2.commercialActivity;
+
                 }
-            }
+                //APARTAMENTOS
+                for (int i = 0; i < input.input1.Length; i++)
+                {
+                    //input.input1[i].builds.Apartments[].id;
+                    if (input.input1[i].builds.Apartments[i].isPetFriendly == pets)
+                    {
+                        pA = input.input1[i].builds.Apartments[i].id;
+                        Console.WriteLine(pA);
+                    }
+
+                }
+                Console.WriteLine("HOLAAA");
+            Console.ReadKey();
             
         }
         
