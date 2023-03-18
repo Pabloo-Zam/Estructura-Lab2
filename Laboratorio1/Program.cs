@@ -69,7 +69,13 @@ namespace Laboratorio1
             string Zone;
             bool pets=true;
             string comercialActivity;
-            string pA = "jjj";
+            string pA = "";
+            int opcion = 0;
+            string ZDR_S = "";
+            int ZDR_I = 0;
+            int Resultados = 0;
+            string[] RID = new string[200];
+            double[] PR = new double[200];
             // = true;
 
             /*foreach (string line in System.IO.File.ReadLines(@"D:\Desktop\1er ciclo 2023\Estructura Lab\Estructura-Lab2\input_lab_2_example.jsonl"))
@@ -90,50 +96,143 @@ namespace Laboratorio1
             //Console.WriteLine("Si lo leyo");
             //InputLab input = JsonSerializer.Deserialize<InputLab>(line, options);
 
-            bool[] TypeBuilders = new bool[3];
+                bool[] requerimientoE = { false, false, false };
+
                 //InputLab input = JsonSerializer.Deserialize<InputLab>(jsonObjects[0]);
                 //System.Console.ReadLine();
                 if (input.input1[0].builds.Apartments != null)
                 {
-                    TypeBuilders[0] = true;
+                    requerimientoE[0] = true;
                 }
                 if (input.input1[0].builds.Houses != null)
                 {
-                    TypeBuilders[1] = true;
+                    requerimientoE[1] = true;
                 }
                 if (input.input1[0].builds.Premises != null)
                 {
-                    TypeBuilders[0] = true;
+                    requerimientoE[2] = true;
                 }
-
+                /////
                 if (input.input2.typeBuilder == "Houses")
                 {
                     Zone = input.input2.minDanger;
-
+                    opcion = 1;
+                    if (ZDR_S == "Green") { ZDR_I = 3; }
+                    if (ZDR_S == "Yellow") { ZDR_I = 2; }
+                    if (ZDR_S == "Orange") { ZDR_I = 1; }
+                    if (ZDR_S == "Red") { ZDR_I = 0; }
                 }
                 if (input.input2.typeBuilder == "Apartmets")
                 {
                     pets = input.input2.wannaPetFriendly.Value;
-
+                    opcion = 0;
 
                 }
                 if (input.input2.typeBuilder == "Premises")
                 {
                     comercialActivity = input.input2.commercialActivity;
-
+                    opcion = 2;
                 }
                 //APARTAMENTOS
-                for (int i = 0; i < input.input1.Length; i++)
+
+                /*for (int i = 0; i < input.input1.Length; i++)
                 {
-                    //input.input1[i].builds.Apartments[].id;
-                    if (input.input1[i].builds.Apartments[i].isPetFriendly == pets)
+                //input.input1[i].builds.Apartments[].id;
+                
+                for (int j = 0; j < input.input1[i].builds.Apartments.Length; j++)
+                {
+                    if ((input.input1[i].builds.Apartments[i].isPetFriendly = pets) && (input.input1[i].builds.Apartments[i].price <= input.input2.budget))
                     {
                         pA = input.input1[i].builds.Apartments[i].id;
                         Console.WriteLine(pA);
                     }
-
                 }
-                Console.WriteLine("HOLAAA");
+                }*/
+            switch (opcion) {
+                case 0:{
+                        for (int i = 0; i < input.input1.Length; i++)
+                        {
+                            if (input.input1[i].builds.Apartments != null)
+                            {
+                                requerimientoE[0] = true;
+                            }
+                            if (requerimientoE[0] = true)
+                            {
+                                string[] Id = new string[input.input1[i].builds.Apartments.Length];
+                                bool[] PetFriendly = new bool[input.input1[i].builds.Apartments.Length];
+                                double[] Budgets = new double[input.input1[i].builds.Apartments.Length];
+                                //EVALUACION 
+                                for (int a = 0; a < input.input1[i].builds.Apartments.Length; a++)
+                                {
+                                    Id[a] = input.input1[i].builds.Apartments[a].id;
+                                    PetFriendly[a] = input.input1[i].builds.Apartments[a].isPetFriendly;
+                                    Budgets[a] = input.input1[i].builds.Apartments[a].price;
+                                }
+
+                                for (int j = 0; j < input.input1[i].builds.Apartments.Length; j++)
+                                {
+                                    if ((input.input1[i].builds.Apartments[i].isPetFriendly = pets) && (input.input1[i].builds.Apartments[i].price <= input.input2.budget))
+                                    {
+                                        RID[Resultados] = Id[j];
+                                        PR[Resultados] = Budgets[j];
+                                        Resultados++;
+                                    }
+                                }
+                                requerimientoE[0] = false;
+                            }
+                        }
+                        break;
+                    }
+                case 1: {
+                        for (int i = 0; i < input.input1.Length; i++)
+                        {
+                            if (input.input1[i].builds.Houses != null) 
+                            {
+                                requerimientoE[1] = true;
+                            }
+                            if (requerimientoE[1] = true) {
+                                string[] Id = new string[input.input1[i].builds.Houses.Length];
+                                int[] zoneDangerous = new int[input.input1[i].builds.Houses.Length];
+                                double[] Budgets = new double[input.input1[i].builds.Houses.Length];
+                                string Color = "";
+                                int zonsD = 0;
+                                //EVALUACION 
+                                for (int a = 0; a < input.input1[i].builds.Apartments.Length; a++)
+                                {
+                                    Id[a] = input.input1[i].builds.Houses[a].id;
+                                    Budgets[a] = input.input1[i].builds.Houses[a].price;
+                                    Color = input.input1[i].builds.Houses[a].zoneDangerous;
+                                    // Se asigna el número dependiendo del color de zona de riesgo//
+                                    if (Color == "Green") { zonsD = 3; }
+                                    if (Color == "Yellow") { zonsD = 2; }
+                                    if (Color == "Orange") { zonsD = 1; }
+                                    if (Color == "Red") { zonsD = 0; }
+                                    zoneDangerous[a] = zonsD;
+                                }
+                                for (int j = 0; j < input.input1[i].builds.Apartments.Length; j++)
+                                {
+                                    if ((input.input1[i].builds.Apartments[i].isPetFriendly = pets) && (input.input1[i].builds.Apartments[i].price <= input.input2.budget))
+                                    {
+                                        RID[Resultados] = Id[j];
+                                        PR[Resultados] = Budgets[j];
+                                        Resultados++;
+                                    }
+                                }
+                            }
+
+                        }
+                            break;
+                    }
+                case 2: {
+
+
+                        break;
+                    }
+                    
+                
+            }
+               
+            
             Console.ReadKey();
             
         }
