@@ -217,22 +217,90 @@ namespace Laboratorio1
                                         PR[Resultados] = Budgets[j];
                                         Resultados++;
                                     }
-                                }
+                                }  
                             }
-
+                            requerimientoE[1] = false;
                         }
                             break;
                     }
-                case 2: {
+                case 2:
+                    {
+                        for (int i = 0; i < input.input1.Length; i++)
+                        {
+                            if (input.input1[i].builds.Premises != null) {
+                                requerimientoE[2] = true; 
+                            }
+                            if (requerimientoE[2] == true)
+                            {
+                                string[] Id = new string[input.input1[i].builds.Premises.Length];
+                                bool[] Ca = new bool[input.input1[i].builds.Premises.Length];
+                                double[] Budgets = new double[input.input1[i].builds.Premises.Length];
+                                for (int a = 0; a < input.input1[i].builds.Premises.Length; a++)
+                                {
+                                    Id[a] = input.input1[i].builds.Premises[a].id;
+                                    Budgets[a] = input.input1[i].builds.Premises[a].price;
+                                    for (int b = 0; b < input.input1[i].builds.Premises[a].commercialActivities.Length; b++)
+                                    {
+                                        if (input.input1[i].builds.Premises[a].commercialActivities[b] == input.input2.commercialActivity)
+                                        {
+                                            Ca[a] = true;
+                                        }
 
+                                    }
+                                }
 
+                                //Se evaluan las condiciones de Budget y Commercial Activities//
+                                for (int j = 0; j < input.input1[i].builds.Premises.Length; j++)
+                                {
+                                    if (Ca[j] == true && Budgets[j] <= input.input2.budget)
+                                    {
+                                        RID[Resultados] = Id[j];
+                                        PR[Resultados] = Budgets[j];
+                                        Resultados++;
+                                    }
+                                }
+                            }
+                            requerimientoE[2] = false;
+                        }
                         break;
                     }
-                    
-                
             }
-               
-            
+            // Ordenamiento//
+            double temporalD = 0;
+            string temporalS = "";
+            for (int i = 0; i < Resultados; i++) // i = current//
+            {
+                int pivote = i;
+                for (int j = 0; j < Resultados; j++)
+                {
+                    if (PR[pivote] <= PR[j])
+                    {
+                        pivote = j;
+                    }
+                    temporalD = PR[i];
+                    temporalS = RID[i];
+                    RID[i] = RID[pivote];
+                    PR[i] = PR[pivote];
+                    RID[pivote] = temporalS;
+                    PR[pivote] = temporalD;
+                }
+            }
+            string RespuestaFinal = "[";
+
+            for (int i = 0; i < Resultados; i++)
+            {
+                if (i < Resultados - 1)
+                {
+                    RespuestaFinal = RespuestaFinal + "\"" + RID[i] + "\"" + ",";
+                }
+                else
+                {
+                    RespuestaFinal = RespuestaFinal + "\"" + RID[i] + "\"";
+                }
+            }
+            RespuestaFinal = RespuestaFinal + "]";
+
+            Console.WriteLine(RespuestaFinal);
             Console.ReadKey();
             
         }
