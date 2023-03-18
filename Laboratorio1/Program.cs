@@ -211,7 +211,7 @@ namespace Laboratorio1
                                 }
                                 for (int j = 0; j < input.input1[i].builds.Apartments.Length; j++)
                                 {
-                                    if ((input.input1[i].builds.Apartments[i].isPetFriendly = pets) && (input.input1[i].builds.Apartments[i].price <= input.input2.budget))
+                                    if (zoneDangerous[j] <= zonsD && Budgets[j] <= input.input2.budget)
                                     {
                                         RID[Resultados] = Id[j];
                                         PR[Resultados] = Budgets[j];
